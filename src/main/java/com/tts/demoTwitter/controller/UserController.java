@@ -54,18 +54,6 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping(value = "/users")
-    public String getUsers(Model model) {
-        List<User> users = userService.findAll();
-        User loggedInUser = userService.getLoggedInUser();
-        List<User> usersFollowing = loggedInUser.getFollowing();
-        SetFollowingStatus(users, usersFollowing, model);
-        model.addAttribute("users", users);
-        SetTweetCounts(users, model);
-
-        return "users";
-    }
-
     private void SetTweetCounts(List<User> users, Model model) {
         HashMap<String, Integer> tweetCounts = new HashMap<>();
         for (User user : users) {
