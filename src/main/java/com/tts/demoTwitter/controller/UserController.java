@@ -25,6 +25,26 @@ public class UserController {
     @Autowired
     private TweetService tweetService;
 
+    @GetMapping(value = "/users/{username}")
+    public String getUser(@PathVariable(value="username") String username, Model model) {
+        User loggedInUser = userService.getLoggedInUser();
+        User user = userService.findByUsername(username);
+        List<User> following = loggedInUser.getFollowing();
+        List<TweetDisplay> tweets = tweetService.findAllByUser(user);
+        boolean isFollowing = false;
+        for (User followedUser : following) {
+            if (followedUser.getUsername().equals(username)) {
+                isFollowing = true;
+            }
+        }
+        boolean isSelfPage = loggedInUser.getUsername().equals(username);
+        model.addAttribute("tweetList", tweets);
+        model.addAttribute("isSelfPage", isSelfPage);
+        model.addAttribute("following", isFollowing);
+        model.addAttribute("user", user);
+        return "user";
+    }
+
     @GetMapping(value = "/users")
     public String getUsers(@RequestParam(value = "filter", required = false) String filter, Model model) {
         List<User> users = new ArrayList<User>();
