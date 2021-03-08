@@ -15,9 +15,13 @@
             </ul><br/>
             <h2>Tweets</h2>
             <div th:each="tweet:${tweetList}">
-                <h5>@<span th:text="${tweet.user.username}"></span>
-                    <small th:text="${tweet.date}"></small></h5>
-                <p th:utext="${tweet.message}"></p>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h5>@<span th:text="${tweet.user.username}"></span>
+                            <small th:text="${tweet.date}"></small></h5>
+                        <p th:utext="${tweet.message}"></p>
+                    </li>
+                </ul>
             </div>
             <div th:if="${#lists.isEmpty(tweetList) and filter == 'all'}">
                 <h3>No tweets have been created yet</h3>
